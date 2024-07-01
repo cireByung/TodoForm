@@ -1,24 +1,30 @@
-import React, {useState} from 'react'
+import React, { useState } from 'react';
 
+export const EditTodoForm = ({ editTodo, task, cancelEdit }) => {
+  const [newTask, setNewTask] = useState(task.task);
 
-export const EditTodoForm = ({editTodo, task}) => {
-  const [value, setValue] = useState(task.task);
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    editTodo(value, task.id);
+    await editTodo({ ...task, task: newTask });
   };
+
   return (
-    <form onSubmit ={handleSubmit} className = "TodoForm">
-    <input type = "text" 
-    value={value} 
-    onChange={(e) => setValue(e.target.value)} 
-    className = "todo-input"
-    placeholder = "Update Task"/>
-    <button type = "submit" 
-    className = "todoBtn">Update Task</button>
+    <form onSubmit={handleSubmit} className="TodoForm">
+      <input
+        type="text"
+        value={newTask}
+        onChange={(e) => setNewTask(e.target.value)}
+        className="todo-input"
+        placeholder="Update Task"
+      />
+      <button type="submit" className="todoBtn">
+        Update Task
+      </button>
+      <button type="button" className="todoBtn" onClick={cancelEdit}>
+        Cancel
+      </button>
     </form>
-  )
-}
+  );
+};
 
-
+export default EditTodoForm;
